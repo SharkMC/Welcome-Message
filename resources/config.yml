@@ -1,3 +1,6 @@
 Title: "Welcome"
 
 Message: "Welcome to server.com!"
+
+# Types: Title, Popup, Form, Message
+Type: "Message"
