@@ -22,7 +22,22 @@ class Main extends PluginBase implements Listener {
     
     public function onJoin(PlayerJoinEvent $event): void {
         $player = $event->getPlayer();
-        $player->sendForm(welcomeForm::create($player));
+        $type = self::getTypeConfig();
+
+        switch ($type) {
+            case "Title":
+                $player->sendTitle(self::getTitleConfig(), self::getMessageConfig(), 10, 60, 10);
+                break;
+            case "Popup":
+                $player->sendPopup(self::getMessageConfig());
+                break;
+            case "Form":
+                $player->sendForm(welcomeForm::create($player));
+                break;
+            case "Message":
+                $player->sendMessage(self::getMessageConfig());
+                break;
+        }
     }
 
     public static function getInstance(): ?Main {
@@ -40,6 +55,13 @@ class Main extends PluginBase implements Listener {
         $instance = self::getInstance();
         if ($instance !== null) {
             return $instance->config->get("Title", "Welcome");
+        }
+    }
+    
+    public static function getTypeConfig(): string {
+        $instance = self::getInstance();
+        if ($instance !== null) {
+            return $instance->config->get("Type", "Message");
         }
     }
 }
